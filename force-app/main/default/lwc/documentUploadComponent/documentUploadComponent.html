@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Document Upload" icon-name="custom:custom14">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Document Name" value={documentName} onchange={handleDocumentNameChange} required></lightning-input>
+            <lightning-combobox
+                label="Document Type"
+                value={documentType}
+                options={documentTypeOptions}
+                onchange={handleDocumentTypeChange}
+                required>
+            </lightning-combobox>
+            <lightning-file-upload
+                label="Upload Document"
+                name="fileUploader"
+                multiple
+                accept={acceptedFormats}
+                onuploadfinished={handleUploadFinished}
+                record-id={employeeId}>
+            </lightning-file-upload>
+        </div>
+    </lightning-card>
+</template>

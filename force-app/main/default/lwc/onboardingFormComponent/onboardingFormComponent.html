@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Employee Onboarding Form">
+        <div class="slds-m-around_medium">
+            <lightning-input label="Employee Name" value={employeeName} onchange={handleInputChange} data-id="name"></lightning-input>
+            <lightning-input label="Email" value={email} onchange={handleInputChange} data-id="email" type="email"></lightning-input>
+            <lightning-input label="Phone Number" value={phoneNumber} onchange={handleInputChange} data-id="phone" type="phone"></lightning-input>
+            <lightning-combobox label="Department" value={department} onchange={handleInputChange} data-id="department" options={departmentOptions}></lightning-combobox>
+            <lightning-input label="Job Title" value={jobTitle} onchange={handleInputChange} data-id="jobTitle"></lightning-input>
+            <lightning-input type="date" label="Start Date" value={startDate} onchange={handleInputChange} data-id="startDate"></lightning-input>
+            <lightning-combobox label="Onboarding Status" value={onboardingStatus} onchange={handleInputChange} data-id="status" options={statusOptions}></lightning-combobox>
+            <lightning-button variant="brand" label="Submit" onclick={handleSubmit}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

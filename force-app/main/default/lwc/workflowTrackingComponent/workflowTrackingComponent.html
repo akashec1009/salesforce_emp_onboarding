@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Onboarding Workflow Tracking">
+        <template if:true={workflowSteps}>
+            <ul>
+                <template for:each={workflowSteps} for:item="step">
+                    <li key={step.Id}>
+                        <span>{step.Step__c} - {step.Status__c}</span>
+                        <lightning-button variant="brand" label="Mark as Completed" onclick={handleCompleteStep} data-id={step.Id} data-status="Completed"></lightning-button>
+                    </li>
+                </template>
+            </ul>
+        </template>
+        <template if:true={error}>
+            <c-error-panel errors={error}></c-error-panel>
+        </template>
+    </lightning-card>
+</template>

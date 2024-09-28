@@ -1,0 +1,12 @@
+<template>
+    <template if:true={errors}>
+        <div class="slds-notify slds-notify_alert slds-theme_error">
+            <span class="slds-assistive-text">Error</span>
+            <ul>
+                <template for:each={errors} for:item="error">
+                    <li key={error}>{error}</li>
+                </template>
+            </ul>
+        </div>
+    </template>
+</template>

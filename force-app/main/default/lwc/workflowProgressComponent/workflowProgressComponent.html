@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Onboarding Workflow Progress">
+        <div class="slds-p-around_medium">
+            <template if:true={workflowSteps}>
+                <template for:each={workflowSteps} for:item="step">
+                    <div key={step.id}>
+                        <lightning-formatted-text value={step.name} class={step.statusClass}></lightning-formatted-text>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
