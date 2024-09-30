@@ -1,6 +1,6 @@
 public with sharing class EmployeeController {
     @AuraEnabled
-    public static void createEmployee(String name, String email, String phone, String department, String jobTitle, Date startDate, String onboardingStatus) {
+    public static Employee__c createEmployee(String name, String email, String phone, String department, String jobTitle, Date startDate, String onboardingStatus) {
         try {
             Employee__c employee = new Employee__c();
             employee.Name = name;
@@ -10,19 +10,27 @@ public with sharing class EmployeeController {
             employee.Job_Title__c = jobTitle;
             employee.Start_Date__c = startDate;
             employee.Onboarding_Status__c = onboardingStatus;
+             // Insert employee record
+             insert employee;
 
-            // Insert employee record
-            insert employee;
+             System.debug('Employee created successfully with ID: ' + employee.Id);
+ 
+             // Initiate onboarding workflow after creating employee
+             WorkflowController.initiateOnboarding(employee.Id);
 
-            // Initiate workflow after creating employee
-            WorkflowController.initiateOnboarding(employee.Id);
-            sendNotificationToIT(employee);
+             System.debug('After the onboarding' + employee.Id);
+ 
+             // Send notification to IT
+             sendNotificationToIT(employee);
+             System.debug('after sending notification to IT');
+ 
+             return employee; // Return the created employee record for reference in LWC
         } catch (Exception e) {
             throw new AuraHandledException('Error creating employee: ' + e.getMessage());
         }
-        
     }
     private static void sendNotificationToIT(Employee__c employee) {
+        System.debug('send notification initiated');
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setToAddresses(new String[] {'akashec1009@gmail.com'}); // Replace with your IT team's email
         mail.setSubject('New Employee Onboarding Notification');

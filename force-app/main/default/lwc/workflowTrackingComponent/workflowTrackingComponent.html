@@ -4,8 +4,18 @@
             <ul>
                 <template for:each={workflowSteps} for:item="step">
                     <li key={step.Id}>
-                        <span>{step.Step__c} - {step.Status__c}</span>
-                        <lightning-button variant="brand" label="Mark as Completed" onclick={handleCompleteStep} data-id={step.Id} data-status="Completed"></lightning-button>
+                            <strong>Employee Name:</strong> {step.Employee__r.Name} <br />
+                            <strong>Email:</strong> {step.Employee__r.Email__c} <br />
+                            <strong>Step:</strong> {step.Step__c} <br />
+                            <strong>Status:</strong> {step.Status__c}
+
+                                <lightning-button 
+                                    variant="brand" 
+                                    label="Mark as Completed" 
+                                    onclick={handleCompleteStep} 
+                                    data-id={step.Id} 
+                                    data-status="Completed">
+                                </lightning-button>
                     </li>
                 </template>
             </ul>

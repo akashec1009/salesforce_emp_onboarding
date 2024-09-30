@@ -5,13 +5,14 @@ export default class WorkflowProgressComponent extends LightningElement {
     @track workflowSteps = [];
 
     @wire(getWorkflowSteps)
+    
     wiredWorkflowSteps({ error, data }) {
         if (data) {
             this.workflowSteps = data.map(step => {
                 return {
                     id: step.Id,
-                    name: step.Step,
-                    statusClass: step.Status === 'Completed' ? 'slds-text-color_success' : 'slds-text-color_error'
+                    name: step.Step__c,
+                    statusClass: step.Status__c === 'Completed' ? 'slds-text-color_success' : 'slds-text-color_error'
                 };
             });
         } else if (error) {

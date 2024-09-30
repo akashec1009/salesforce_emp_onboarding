@@ -58,20 +58,31 @@ export default class OnboardingFormComponent extends LightningElement {
             startDate: this.startDate, 
             onboardingStatus: this.onboardingStatus 
         })
-        .then(() => {
-            this.showToast('Success', 'Employee onboarded successfully!', 'success');
-            initiateOnboarding({ employeeId: result.Id })
-            .then(() => {
-                this.showToast('Success', 'Onboarding workflow initiated for ' + result.Name, 'success');
-            })
-            .catch(error => {
-                this.showToast('Error', 'Error initiating onboarding workflow: ' + error.body.message, 'error');
-            });
-            // Clear the form fields after submission
-            this.clearForm();
+        .then((result) => {
+            if (result && result.Id) {  // Check if result contains Id
+                this.showToast('Success', 'Employee onboarded successfully!', 'success');
+                
+                // Now initiate the onboarding process
+                initiateOnboarding({ employeeId: result.Id })
+                .then(() => {
+                    this.showToast('Success', 'Onboarding workflow initiated for ' + result.Name, 'success');
+                })
+                .catch(error => {
+                    console.error('Error during workflow initiation:', error);
+                    const errorMessage = error?.body?.message || 'Unknown error occurred during workflow initiation'; 
+                    this.showToast('Error', errorMessage, 'error');
+                });
+
+                // Clear the form fields after submission
+                this.clearForm();
+            } else {
+                this.showToast('Error', 'Employee creation did not return a valid ID.', 'error');
+            }
         })
         .catch(error => {
-            this.showToast('Error', 'Failed to onboard employee: ' + error.body.message, 'error');
+            console.error('Error during employee creation:', error);
+            const errorMessage = error?.body?.message || 'Unknown error occurred during employee creation';
+            this.showToast('Error', errorMessage, 'error');
         });
     }
 

@@ -17,7 +17,7 @@ public class EmployeeIdGenerator {
         Boolean isUnique = false;
 
         while (!isUnique) {
-            // Generate a random ID - customize the format as needed
+            // Generate a random ID 
             uniqueId = 'EMP' + String.valueOf(Math.abs(Crypto.getRandomInteger()));
             // Check if the ID is unique
             isUnique = !existingIds.contains(uniqueId) && !isIdDuplicate(uniqueId);
