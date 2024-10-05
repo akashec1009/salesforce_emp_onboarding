@@ -4,8 +4,6 @@
             <template if:true={workflowSteps}>
                 <template for:each={workflowSteps} for:item="step">
                     <div key={step.id}>
-                        <strong>Employee Name:</strong> {step.Employee__r.Name} <br />
-                        <strong>Email:</strong> {step.Employee__r.Email__c} <br />
                         <strong>Step:</strong> {step.Step__c} <br />
                         <strong>Status:</strong> {step.Status__c}
                         <lightning-formatted-text value={step.name} class={step.statusClass}></lightning-formatted-text>

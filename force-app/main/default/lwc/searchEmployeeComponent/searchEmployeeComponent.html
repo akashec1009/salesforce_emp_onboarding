@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Employee Search" icon-name="standard:search">
+        <!-- Input for Employee ID -->
+        <div class="slds-p-around_medium">
+            <lightning-input 
+                label="Enter Employee ID" 
+                value={empId} 
+                onchange={handleInputChange} 
+                placeholder="Employee ID">
+            </lightning-input>
+        </div>
+
+        <!-- Search Button -->
+        <div class="slds-p-around_medium">
+            <lightning-button 
+                label="Search" 
+                onclick={handleSearch} 
+                variant="brand">
+            </lightning-button>
+        </div>
+
+        <!-- Display Employee Details in a Table -->
+        <template if:true={isEmployeeFound}>
+            <lightning-datatable
+                key-field="Id"
+                data={employeeData}
+                columns={columns}
+                hide-checkbox-column="true">
+            </lightning-datatable>
+        </template>
+
+        <!-- Display Error Message -->
+        <template if:true={isError}>
+            <div class="slds-box slds-box_x-small slds-theme_error slds-m-around_medium">
+                <p>{error}</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>

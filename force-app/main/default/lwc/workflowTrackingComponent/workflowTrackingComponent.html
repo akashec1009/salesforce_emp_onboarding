@@ -1,24 +1,13 @@
 <template>
-    <lightning-card title="Onboarding Workflow Tracking">
+    <lightning-card title="Onboarding Workflow Tracking" icon-name="custom:custom63">
         <template if:true={workflowSteps}>
-            <ul>
-                <template for:each={workflowSteps} for:item="step">
-                    <li key={step.Id}>
-                            <strong>Employee Name:</strong> {step.Employee__r.Name} <br />
-                            <strong>Email:</strong> {step.Employee__r.Email__c} <br />
-                            <strong>Step:</strong> {step.Step__c} <br />
-                            <strong>Status:</strong> {step.Status__c}
-
-                                <lightning-button 
-                                    variant="brand" 
-                                    label="Mark as Completed" 
-                                    onclick={handleCompleteStep} 
-                                    data-id={step.Id} 
-                                    data-status="Completed">
-                                </lightning-button>
-                    </li>
-                </template>
-            </ul>
+            <lightning-datatable
+                key-field="Id"
+                data={workflowSteps}
+                columns={columns}
+                hide-checkbox-column="true"
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
         </template>
         <template if:true={error}>
             <c-error-panel errors={error}></c-error-panel>

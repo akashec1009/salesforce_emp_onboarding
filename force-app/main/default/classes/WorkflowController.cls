@@ -66,7 +66,7 @@ public with sharing class WorkflowController {
     public static List<OnboardingWorkflow__c> getWorkflowSteps() {
         try {
             System.debug('Fetching workflow steps.');
-            return [SELECT Id, Step__c, Status__c, Employee__r.Name, Employee__r.Email__c 
+            return [SELECT Id, Step__c, Status__c,Employee__r.Department__c,Employee__r.Employee_ID__c, Employee__r.Name, Employee__r.Email__c 
             FROM OnboardingWorkflow__c 
             ORDER BY Step__c];
         } catch (Exception e) {
