@@ -19,6 +19,7 @@ public with sharing class DocumentController {
     @AuraEnabled
     public static void triggerBackgroundCheck(String employeeId) {
         // Assuming an external service endpoint for background checks
+        // removoing the external API integration
         String backgroundCheckEndpoint = 'https://api.externalservice.com/background-check';
         
         HttpRequest req = new HttpRequest();

@@ -2,6 +2,7 @@ public with sharing class BackgroundCheckController {
     @AuraEnabled
     public static String triggerBackgroundCheck(String employeeId) {
         // Prepare the request for the background check API
+        // background check doesn;t required 
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://external-background-check-api.com/check'); // Replace with the actual API endpoint
         req.setMethod('POST');
