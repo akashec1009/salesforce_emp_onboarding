@@ -1,22 +1,46 @@
 <template>
-    <lightning-card title="Document Upload" icon-name="custom:custom14">
-        <div class="slds-p-around_medium">
-            <lightning-input label="Document Name" value={documentName} onchange={handleDocumentNameChange} required></lightning-input>
-            <lightning-combobox
-                label="Document Type"
-                value={documentType}
-                options={documentTypeOptions}
-                onchange={handleDocumentTypeChange}
+    <lightning-card title="Document Upload">
+        <div class="slds-m-around_medium">
+            <!-- Employee Id Input -->
+            <lightning-input 
+                label="Employee ID" 
+                value={employeeId} 
+                onchange={handleEmployeeIdChange} 
                 required>
-            </lightning-combobox>
-            <lightning-file-upload
-                label="Upload Document"
-                name="fileUploader"
-                multiple
-                accept={acceptedFormats}
-                onuploadfinished={handleUploadFinished}
-                record-id={employeeId}>
-            </lightning-file-upload>
+            </lightning-input>
+
+            <!-- Document Name Input -->
+            <lightning-input 
+                label="Document Name" 
+                value={documentName} 
+                onchange={handleNameChange} 
+                required>
+            </lightning-input>
+
+            <!-- Document Type Input -->
+            <lightning-input 
+                label="Document Type" 
+                value={documentType} 
+                onchange={handleTypeChange} 
+                required>
+            </lightning-input>
+
+            <!-- File Upload -->
+            <lightning-input 
+                type="file" 
+                label="Upload Document" 
+                accept={acceptedFormats} 
+                onchange={handleFileChange} 
+                required>
+            </lightning-input>
+
+            <!-- Upload Button -->
+            <lightning-button 
+                class="slds-m-top_medium" 
+                label="Upload Document" 
+                onclick={handleUpload} 
+                variant="brand">
+            </lightning-button>
         </div>
     </lightning-card>
 </template>

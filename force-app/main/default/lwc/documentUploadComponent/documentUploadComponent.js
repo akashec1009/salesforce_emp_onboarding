@@ -1,68 +1,74 @@
 import { LightningElement, api, track } from 'lwc';
 import uploadDocument from '@salesforce/apex/DocumentController.uploadDocument';
-import triggerBackgroundCheck from '@salesforce/apex/DocumentController.triggerBackgroundCheck';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class DocumentUploadComponent extends LightningElement {
-    @api employeeId; // Passed from the parent component
-    @track documentName = '';
-    @track documentType = '';
-    documentTypeOptions = [
-        { label: 'Offer Letter', value: 'Offer Letter' },
-        { label: 'ID Proof', value: 'ID Proof' },
-        { label: 'Resume', value: 'Resume' },
-        { label: 'Others', value: 'Others' },
-    ];
-    acceptedFormats = ['.pdf', '.png', '.jpg', '.doc', '.docx'];
+    employeeId = '';
+    documentName = '';
+    documentType = '';
+    documentContent = null;
 
-    handleDocumentNameChange(event) {
+    handleNameChange(event) {
         this.documentName = event.target.value;
     }
 
-    handleDocumentTypeChange(event) {
-        this.documentType = event.detail.value;
+    handleTypeChange(event) {
+        this.documentType = event.target.value;
     }
 
-    handleUploadFinished(event) {
-        const uploadedFiles = event.detail.files;
-        if (uploadedFiles.length > 0) {
-            const fileId = uploadedFiles[0].documentId; // Get the uploaded file ID
-            this.submitDocument(fileId);
+    handleEmployeeIdChange(event) {
+        this.employeeId = event.target.value;
+    }
+
+    handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.documentContent = reader.result.split(',')[1]; // Base64 encoded file content
+            };
+            reader.readAsDataURL(file);
         }
     }
 
-    async submitDocument(fileId) {
-        try {
-            await uploadDocument({ 
-                employeeId: this.employeeId, 
-                documentName: this.documentName, 
-                documentType: this.documentType, 
-                fileId: fileId 
+    handleUpload() {
+        if (this.documentName && this.documentType && this.documentContent && this.employeeId) {
+            uploadDocument({
+                documentName: this.documentName,
+                documentType: this.documentType,
+                documentContent: this.documentContent,
+                employeeId: this.employeeId
+            })
+            .then(result => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Document uploaded successfully',
+                        variant: 'success',
+                    })
+                );
+            })
+            .catch(error => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error uploading document',
+                        message: error.body.message,
+                        variant: 'error',
+                    })
+                );
             });
-
-            // Trigger the background check after successful document upload
-            await triggerBackgroundCheck({ employeeId: this.employeeId });
-
-            // Show success message
-            this.showToast('Success', 'Document uploaded and background check initiated successfully.', 'success');
-
-            // Reset fields
-            this.documentName = '';
-            this.documentType = '';
-        } catch (error) {
-            // Handle errors
-            console.error('Error uploading document or triggering background check:', error);
-            this.showToast('Error', error.body.message || 'Error occurred while uploading document.', 'error');
+        } else {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error',
+                    message: 'Please fill all fields and upload a file',
+                    variant: 'error',
+                })
+            );
         }
     }
 
-    // Function to show toast messages
-    showToast(title, message, variant) {
-        const evt = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant,
-        });
-        this.dispatchEvent(evt);
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg']; // Add file formats you want to accept
     }
 }
