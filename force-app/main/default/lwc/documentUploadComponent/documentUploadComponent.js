@@ -69,6 +69,6 @@ export default class DocumentUploadComponent extends LightningElement {
     }
 
     get acceptedFormats() {
-        return ['.pdf', '.png', '.jpg']; // Add file formats you want to accept
+        return ['.pdf', '.png', '.jpg']; 
     }
 }

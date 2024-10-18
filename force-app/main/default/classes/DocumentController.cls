@@ -6,7 +6,7 @@ public with sharing class DocumentController {
         Document__c newDocument = new Document__c();
         newDocument.Name = documentName;
         newDocument.DocumentType__c = documentType;
-        newDocument.Employee_ID__c = employeeId;
+        newDocument.Employee__c = employeeId;
         newDocument.Uploaded_Date__c = Date.today();
 
         insert newDocument;
